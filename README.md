@@ -42,7 +42,6 @@ SoundInSpace/
 ├── src/
 │   ├── audio/
 │   │   ├── SineVoice.h         # Pure sine wave oscillator
-│   │   ├── SquareVoice.h       # Square wave oscillator
 │   │   ├── NoiseVoice.h        # Filtered noise generator
 │   │   └── SynthEngine.h       # Audio engine coordinator
 │   ├── interaction/
