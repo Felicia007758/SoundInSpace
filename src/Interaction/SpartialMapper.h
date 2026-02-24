@@ -1,28 +1,33 @@
 #pragma once
 #include "ofMain.h"
-
-struct SpatialParams {
-	float pitch;
-	float brightness;
-	float amplitude;
-};
-
-class SpatialMapper {
+class SpartialMapper {
 public:
-	SpatialParams map(float x, float y, float speed,
-		float width, float height) {
-
-		SpatialParams params;
-
-		// Pitch: left (low) → right (high)
-		params.pitch = ofMap(x, 0, width, 100, 800, true);
-
-		// Brightness: top (bright) → bottom (dark)
-		params.brightness = ofMap(y, 0, height, 1.0, 0.0, true);
-
-		// Amplitude: slow → quiet, fast → loud
-		params.amplitude = ofClamp(speed * 0.01f, 0.0f, 0.8f);
-
-		return params;
+	void setup(int width, int height) {
+		screenWidth = width;
+		screenHeight = height;
 	}
+
+	float mouseYToAmplitude(float mouseY) {
+		return ofMap(mouseY, 0, screenHeight, 1.0f, 0.0f, true);
+	}
+
+	float mouseXToFrequency(float mouseX) {
+		return ofMap(mouseX, 0, screenWidth, 80.0f, 800.0f, true);
+	}
+
+	float positionToPan(glm::vec2 pos) {
+		float centerX = screenWidth / 2;
+		return ofMap(pos.x, 0, screenWidth, -1.0f, 1.0f, true);
+	}
+
+	float distanceToEffect(glm::vec2 pos) {
+		glm::vec2 center(screenWidth / 2, screenHeight / 2);
+		float distance = glm::distance(pos, center);
+		float maxDistance = glm::distance(glm::vec2(0, 0), center);
+		return ofMap(distance, 0, maxDistance, 0.0f, 1.0f, true);
+	}
+
+private:
+	int screenWidth, screenHeight;
 };
+
